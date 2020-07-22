@@ -25,8 +25,8 @@ function deleteProduct($productId) {
 
 function addProduct($categoryId, $code, $name, $price) {
     global $db;
-    $sql = 'INSERT INTO products
+    $sql = "INSERT INTO products
             (categoryID, productCode, productName, listPrice)
-             VALUES ("$categoryId", "$code", "$name", "$price")';
+             VALUES ($categoryId, '$code', '$name', $price)";
     $db->exec($sql);
 }

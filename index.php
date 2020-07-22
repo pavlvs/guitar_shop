@@ -13,8 +13,9 @@ if (isset($_POST['action'])) {
 
 if ($action == 'listProducts') {
     // Get the current category Id
-    $categoryId = $_GET['categoryId'];
-    if (!isset($categoryId)) {
+    if (isset($_GET['categoryId'])) {
+        $categoryId = $_GET['categoryId'];
+    } else {
         $categoryId = 1;
     }
 
@@ -30,7 +31,6 @@ if ($action == 'listProducts') {
     $productId = $_POST['productId'];
     $categoryId = $_POST['categoryId'];
     deleteProduct($productId);
-
     // Display the Product List page for the current category
     header('location: .?categoryId=$categoryId');
 } else if ($action == 'showAddForm') {
@@ -42,12 +42,12 @@ if ($action == 'listProducts') {
     $name = $_POST['name'];
     $price = $_POST['price'];
 
-    if (empty($code) || empty($Name) || empty($price)) {
-        $error = 'Invalid product data. Check all fields and try again.';
-        include 'error.php';
+    if (empty($code) || empty($name) || empty($price)) {
+        $errorMessage = 'Invalid product data. Check all fields and try again.';
+        include 'database_error.php';
     } else {
         addProduct($categoryId, $code, $name, $price);
-
         // Display the Product List page for the current category
+        header("Location: .?category_id=$categoryId");
     }
 }
