@@ -4,7 +4,7 @@ $docRoot = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT');
 
 // Get the application path
 $uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
-echo $uri . '<br>';
+// echo $uri . '<br>';
 $dirs = explode('/', $uri);
 $appPath = '/';
 

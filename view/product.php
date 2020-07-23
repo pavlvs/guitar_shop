@@ -32,7 +32,7 @@ $imageAlt = 'Image filename: ' . $imageFilename;
 
 <div id="right_column">
     <p><b>List Price:</b><?= $listPrice ?></p>
-    <p><b>Discount:</b><?= '$' . $discountPercentF . '%' ?></p>b></p>
+    <p><b>Discount:</b><?= '$' . $discountPercentF . '%' ?></p>
     <p><b>Your Price:</b><?= '$' . $unitPriceF ?>(You save <?= '$' . $discountAmountF ?>)</p>
     <form action="<?= $appPath . 'cart' ?>" method="post">
         <input type="hidden" name="action" value="add">
