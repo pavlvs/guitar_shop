@@ -18,23 +18,25 @@ header h1 {
   color: black;
 }
 main {
-  margin-bottom: 1em;
+  /* margin-bottom: 1em;
   float: left;
-  width: 580px;
+  width: 580px; */
 }
 aside {
   float: left;
   width: 150px;
   height: 400px;
-  margin: 0.5em 0;
+  /* margin: 0.5em 0; */
 }
 section {
   float: left;
+  margin-bottom: 2em;
   width: 500px;
 }
 footer {
   clear: both;
   border-top: 2px solid black;
+  margin-top: 1em;
 }
 footer p {
   text-align: right;

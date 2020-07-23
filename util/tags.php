@@ -1,5 +1,4 @@
 <?php
-include '../words.txt';
 function addTags($text) {
 
     // Convert return characters to the Unix new lines

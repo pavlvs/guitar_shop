@@ -4,7 +4,7 @@
     <h2>Links</h2>
     <ul>
         <li><a href="<?= $appPath ?>">Home</a></li>
-        <li><a href="<?= $appPath . 'admin' ?>"></a></li>
+        <li><a href="<?= $appPath . 'admin' ?>">Admin</a></li>
     </ul>
     <h2>Categories</h2>
     <ul>
