@@ -126,6 +126,15 @@ form {
 .left {
   text-align: left;
 }
+.no_bottom_margin {
+  margin-bottom: 0em;
+}
+.first_paragraph {
+  margin-top: 0;
+}
+.last_paragraph {
+  margin-bottom: 2em;
+}
 .cart_qty {
   text-align: right;
   width: 3em;
@@ -237,7 +246,25 @@ form {
 #add_category input {
   margin-right: 0.25em;
 }
-
+#add_edit_product_form {
+  margin: 0.5em 0 2em;
+}
+#add_edit_product_form label {
+  width: 8em;
+  padding-right: 1em;
+  padding-bottom: 0.5em;
+  text-align: right;
+  float: left;
+}
+#add_edit_product_form input {
+  float: left;
+}
+#add_edit_product_form input[text] {
+  width: 25em;
+}
+#add_edit_product_form textarea {
+  width: 25em;
+}
 #formatting_directions h2 {
   padding-top: 1em;
 }
@@ -247,7 +274,33 @@ form {
   padding-left: 1em;
   padding-bottom: 1em;
 }
-
+#edit_button_form {
+  float: left;
+  margin-right: 0.5em;
+}
+.product_image_cell {
+  padding-top: 1em;
+  width: 8em;
+  text-align: center;
+}
+.product_info_cell {
+  margin: 0 0 1em;
+}
+.product_info_cell p {
+  margin: 0 0 0.25em;
+}
+#category_table form {
+  margin: 0;
+}
+#category_table td {
+  margin: 0 0.5em;
+}
+#add_category_form form {
+  margin: 0;
+}
+#add_category_form input {
+  margin-right: 0.5em;
+}
 #copyright {
   margin: 1em 0;
 }

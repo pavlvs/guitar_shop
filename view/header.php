@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <div id="page">
         <header>
             <h1>My Guitar Shop</h1>
         </header>

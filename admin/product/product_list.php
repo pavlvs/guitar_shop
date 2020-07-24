@@ -16,7 +16,7 @@
 
     <section>
         <!-- display a table of products -->
-        <h2><?= $categoryName ?></h2>
+        <h2><?= $category['categoryName'] ?></h2>
         <table>
             <tr>
                 <th>Code</th>
@@ -41,7 +41,7 @@
 
             <?php endforeach; ?>
         </table>
-        <p><a href="?action=showAddForm">Add Product</a></p>
+        <p><a href="index.php?action=showAddEditForm">Add Product</a></p>
     </section>
 </div>
 <?php include 'view/footer.php'; ?>
