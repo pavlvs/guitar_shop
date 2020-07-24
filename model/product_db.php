@@ -115,6 +115,7 @@ function deleteProduct($productId) {
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':productId', $productId);
         $rowCount = $stmt->execute();
+        $stmt->closeCursor();
         return $rowCount;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();

@@ -23,8 +23,11 @@
     <?php endif; ?>
 
     <h2>Links</h2>
-    <p class="last_paragraph">
+    <p>
         <a href="index.php?action=showAddEditForm">Add Product</a>
+    </p>
+    <p class="last_paragraph">
+        <a href="../category?action=listCategories">List Categories</a>
     </p>
 </section>
 <?php include '../../view/footer.php'; ?>
