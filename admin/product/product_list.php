@@ -1,47 +1,30 @@
-<?php include 'view/header.php'; ?>
-<div id="main">
-    <h1>Product List</h1>
-
-    <aside>
-        <!-- display a list of categories -->
-        <h2>Categories</h2>
-        <ul class="nav">
-            <?php foreach ($categories as $category) : ?>
+<?php include '../../view/header.php'; ?>
+<?php include '../../view/sidebar_admin.php'; ?>
+<section>
+    <h1>Product Manager - List Products</h1>
+    <p>To view, edit or delete a product, select the product.</p>
+    <p>To add a product, select the "Add Product" link.</p>
+    <?php if (count($products) == 0) : ?>
+        <ul>
+            <li>There are no products in this category</li>
+        </ul>
+    <?php else : ?>
+        <h2><?= $currentCategory['categoryName'] ?></h2>
+        <ul>
+            <?php foreach ($products as $product) : ?>
                 <li>
-                    <a href="?categoryId=<?= $category['categoryID'] ?>"><?= $category['categoryName'] ?></a>
+                    <a href="?action=viewProduct&amp;productId=
+            <?= $product['productID'] ?>">
+                        <?= $product['productName'] ?>
+                    </a>
                 </li>
             <?php endforeach; ?>
         </ul>
-    </aside>
+    <?php endif; ?>
 
-    <section>
-        <!-- display a table of products -->
-        <h2><?= $category['categoryName'] ?></h2>
-        <table>
-            <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th class="right">Price</th>
-                <th>&nbsp;</th>
-            </tr>
-            <?php foreach ($products as $product) : ?>
-                <tr>
-                    <td><?= $product['productCode'] ?></td>
-                    <td><?= $product['productName'] ?></td>
-                    <td class="right"><?= $product['listPrice'] ?></td>
-                    <td>
-                        <form action="." method="post">
-                            <input type="hidden" name="action" value="deleteProduct">
-                            <input type="hidden" name="productId" value="<?= $product['productID'] ?>">
-                            <input type="hidden" name="categoryId" value="<?= $product['categoryID'] ?>">
-                            <input type="submit" value="Delete">
-                        </form>
-                    </td>
-                </tr>
-
-            <?php endforeach; ?>
-        </table>
-        <p><a href="index.php?action=showAddEditForm">Add Product</a></p>
-    </section>
-</div>
-<?php include 'view/footer.php'; ?>
+    <h2>Links</h2>
+    <p class="last_paragraph">
+        <a href="index.php?action=showAddEditForm">Add Product</a>
+    </p>
+</section>
+<?php include '../../view/footer.php'; ?>
