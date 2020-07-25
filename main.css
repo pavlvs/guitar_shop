@@ -18,15 +18,15 @@ header h1 {
   color: black;
 }
 main {
-  /* margin-bottom: 1em;
+  margin-bottom: 1em;
   float: left;
-  width: 580px; */
+  width: 580px;
 }
 aside {
   float: left;
   width: 150px;
   height: 400px;
-  /* margin: 0.5em 0; */
+  margin: 0.5em 0;
 }
 section {
   float: left;
@@ -169,18 +169,15 @@ form {
 #add_category_form input {
   margin-right: 0.5em;
 }
-
 #add_admin_user_form label {
   width: 8.5em;
 }
-
 #edit_and_delete_buttons {
   margin-bottom: 0.5em;
 }
 #edit_and_delete_buttons form {
   display: inline;
 }
-
 #image_manager input {
   margin: 0.25em;
 }
@@ -246,25 +243,7 @@ form {
 #add_category input {
   margin-right: 0.25em;
 }
-#add_edit_product_form {
-  margin: 0.5em 0 2em;
-}
-#add_edit_product_form label {
-  width: 8em;
-  padding-right: 1em;
-  padding-bottom: 0.5em;
-  text-align: right;
-  float: left;
-}
-#add_edit_product_form input {
-  float: left;
-}
-#add_edit_product_form input[text] {
-  width: 25em;
-}
-#add_edit_product_form textarea {
-  width: 25em;
-}
+
 #formatting_directions h2 {
   padding-top: 1em;
 }
@@ -274,33 +253,7 @@ form {
   padding-left: 1em;
   padding-bottom: 1em;
 }
-#edit_button_form {
-  float: left;
-  margin-right: 0.5em;
-}
-.product_image_cell {
-  padding-top: 1em;
-  width: 8em;
-  text-align: center;
-}
-.product_info_cell {
-  margin: 0 0 1em;
-}
-.product_info_cell p {
-  margin: 0 0 0.25em;
-}
-#category_table form {
-  margin: 0;
-}
-#category_table td {
-  margin: 0 0.5em;
-}
-#add_category_form form {
-  margin: 0;
-}
-#add_category_form input {
-  margin-right: 0.5em;
-}
+
 #copyright {
   margin: 1em 0;
 }
