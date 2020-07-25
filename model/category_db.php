@@ -1,7 +1,12 @@
 <?php
 function getCategories() {
     global $db;
-    $sql    = 'SELECT * FROM categories
+    $sql    = 'SELECT *,
+                    (SELECT COUNT(*)
+                    FROM products
+                    WHERE Products.categoryID = Categories.categoryID)
+                    AS productCount
+               FROM categories
                ORDER BY categoryID';
     try {
         $stmt = $db->prepare($sql);
@@ -16,7 +21,8 @@ function getCategories() {
 
 function getCategory($categoryId) {
     global $db;
-    $sql = 'SELECT * FROM categories
+    $sql = 'SELECT *
+            FROM categories
             WHERE categoryID = :categoryId';
     try {
         $stmt = $db->prepare($sql);
@@ -65,21 +71,17 @@ function deleteCategory($categoryId) {
     }
 }
 
-function updateCategory() {
-}
-
-function productsInCategory($categoryId) {
+function updateCategory($categoryId, $name) {
     global $db;
-    $sql = 'SELECT productId
-            FROM products
+    $sql = 'UPDATE foos
+            SET categoryName = :name
             WHERE categoryID = :categoryId';
     try {
         $stmt = $db->prepare($sql);
+        $stmt->bindValue(':name', $name);
         $stmt->bindValue(':categoryId', $categoryId);
         $stmt->execute();
-        $result = $stmt->fetchAll();
         $stmt->closeCursor();
-        return $result;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
         displayDBError($errorMessage);
