@@ -11,9 +11,3 @@ try {
     include 'errors/db_error_connect.php';
     exit;
 }
-
-function displayDBError($error_message) {
-    global $app_path;
-    include 'errors/db_error.php';
-    exit;
-}
