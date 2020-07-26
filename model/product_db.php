@@ -18,17 +18,20 @@ function getProductsByCategory($categoryId) {
     }
 }
 
-function getProducts() {
+function getProductOrderCount($productId) {
     global $db;
-    $sql = 'SELECT *
-            FROM products
-            ORDER BY productID';
+    $sql = 'SELECT COUNT(*)
+            AS orderCount
+            FROM orderitems
+            WHERE  productID = :productId';
     try {
         $stmt = $db->prepare($sql);
+        $stmt->bindValue(':productId', $productId);
         $stmt->execute();
-        $result = $stmt->fetchAll();
+        $product = $stmt->fetch();
+        $orderCount = $product['orderitemscount'];
         $stmt->closeCursor();
-        return $result;
+        return $orderCount;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
         displayDBError($errorMessage);
@@ -38,7 +41,9 @@ function getProducts() {
 function getProduct($productId) {
     global $db;
     $sql = 'SELECT *
-            FROM products
+            FROM products p
+            INNER JOIN categories c
+            ON p.categoryID = c.categoryID
             WHERE productID = :productId';
     try {
         $stmt = $db->prepare($sql);
@@ -82,12 +87,12 @@ function addProduct($categoryId, $code, $name, $description, $price, $discountPe
 function updateProduct($productId, $code, $name, $description, $price, $discountPercent, $categoryId) {
     global $db;
     $sql = 'UPDATE products
-            SET productName = :name,
-            productCode = :code,
-            description = :description,
-            listPrice = :price,
-            discountPercent = :discountPercent,
-            categoryId = :categoryId
+            SET productName     = :name,
+                productCode     = :code,
+                description     = :description,
+                listPrice       = :price,
+                discountPercent = :discountPercent,
+                categoryId      = :categoryId
             WHERE productID= :productId';
     try {
         $stmt = $db->prepare($sql);
@@ -121,5 +126,4 @@ function deleteProduct($productId) {
         $errorMessage = $e->getMessage();
         displayDBError($errorMessage);
     }
-    $db->exec($sql);
 }

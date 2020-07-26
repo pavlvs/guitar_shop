@@ -2,7 +2,7 @@
 class Field {
     private $name;
     private $message = '';
-    private $hasErrpr = false;
+    private $hasError = false;
 
     public function __construct($name, $message = '') {
         $this->name = $name;
