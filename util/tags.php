@@ -1,4 +1,12 @@
 <?php
+function htmlConvert($text) {
+    if (htmlspecialchars_decode($text) == $text) {
+        return htmlspecialchars($text);
+    } else {
+        return $text;
+    }
+}
+
 function addTags($text) {
 
     // Convert return characters to the Unix new lines
@@ -25,5 +33,19 @@ function addTags($text) {
         }
         $text .= $p;
     }
+    return $text;
+}
+
+// function to remove some html tags from text
+function removeTags($text) {
+    // Remove <ul> and <li> tags
+    $text = str_replace('<ul>', '', $text);
+    $text = str_replace('</li></u>', '', $text);
+    $text = str_replace('<li>', '', $text);
+
+    // Remove <p> tags
+    $text = str_replace('</p><p>', '\n\n', $text);
+    $text = str_replace('<p>', '', $text);
+    $text = str_replace('</p>', '', $text);
     return $text;
 }
