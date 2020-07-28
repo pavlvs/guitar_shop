@@ -279,15 +279,86 @@ switch ($action) {
         redirect('.');
         break;
     case 'viewAddressEdit':
+        // set the variables for address type
+        $addressType = filter_input(INPUT_POST, 'addressType');
+        if ($addressType == 'billing') {
+            $addressId = $_SESSION['user']['billingAddressId'];
+            $heading = 'Update Billing Address';
+        } else {
+            $addressId = $_SESSION['user']['shipAddressId'];
+            $heading = 'Update Shipping Address';
+        }
 
+        // Get the data for the address
+        $address = getAddress($addressId);
+        $line1 = $address['line1'];
+        $line2 = $address['line2'];
+        $city = $address['$city'];
+        $state = $address['s$tate'];
+        $zip = $address['zip'];
+        $phone = $address['phone'];
+
+        // Display the data on the page
+        include 'address_edit.php';
         break;
     case 'updateAddress':
+        $customerId = $_SESSION['user']['customerId'];
 
+        // set up variables for address type
+        $addressType = filter_input(INPUT_POST, 'addressType');
+        if ($addressType == 'billing') {
+            $addressId = $_SESSION['user']['billingAddressId'];
+            $heading = 'Update Billing Address';
+        } else {
+            $addressId = $_SESSION['user']['shipAddressId'];
+            $heading = 'Update Shipping Address';
+        }
+
+        // Get the data for the address
+        $line1 = $address['line1'];
+        $line2 = $address['line2'];
+        $city = $address['$city'];
+        $state = $address['s$tate'];
+        $zip = $address['zip'];
+        $phone = $address['phone'];
+
+        // Validate the data
+        $validate->text('line1', $line1);
+        $validate->text('line2', $line2, false);
+        $validate->text('city', $city);
+        $validate->text('state', $state);
+        $validate->text('zip', $zip);
+        $validate->text('phone', $phone, false);
+
+        // if validation errors, redisplay login page and exit controller
+        if ($fields->hasErrors()) {
+            include 'account/address_edit.php';
+            break;
+        }
+
+        // if the old address has orders disable it. Otherwise delete it
+        disableOrDeleteAddress($addressId);
+
+        // add the new address
+        $addressID = addAddress($customerId, $line1, $line2, $city, $state, $zip, $phone);
+
+        // Relate the address to the customer account
+        if ($address == 'billing') {
+            customerChangeBillingId($customerId, $addressId);
+        } else {
+            customerChangeShippingId($customerId, $addressId);
+        }
+
+        // set the user data in the session
+        $_SESSION['user'] = getCustomer($customerId);
+
+        redirect('.');
         break;
     case 'logout':
-
+        unset($_SESSION['user']);
+        redirect('.');
         break;
     default:
-        # code...
+        displayError("Unknown account action: " . $action);
         break;
 }
