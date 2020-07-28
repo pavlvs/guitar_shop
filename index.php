@@ -1,12 +1,6 @@
 <?php
 require_once 'util/main.php';
-require_once 'util/tags.php';
-require_once 'model/database.php';
 require_once 'model/product_db.php';
-require_once 'model/category_db.php';
-
-// Get all categories
-$categories = getCategories();
 
 // Set the featured product IDs in an array
 $productIds = [1, 7, 9];
