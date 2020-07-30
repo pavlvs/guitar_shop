@@ -7,7 +7,7 @@ if (isset($productId)) {
     $headingText = 'Add Product';
 }
 ?>
-<section>
+<main>
     <h1>Product Manager - <?= $headingText ?></h1>
 
     <form action="index.php" method="post" id="add_edit_product_form">
@@ -59,5 +59,5 @@ if (isset($productId)) {
             <li>Use standard HTML tags for bold and italics</li>
         </ul>
     </div>
-</section>
+</main>
 <?php include 'view/footer.php' ?>

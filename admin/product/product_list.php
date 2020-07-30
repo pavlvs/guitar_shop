@@ -1,6 +1,6 @@
 <?php include '../../view/header.php'; ?>
 <?php include '../../view/sidebar_admin.php'; ?>
-<section>
+<main>
     <h1>Product Manager - List Products</h1>
     <p>To view, edit or delete a product, select the product.</p>
     <p>To add a product, select the "Add Product" link.</p>
@@ -15,7 +15,7 @@
                 <li>
                     <a href="?action=viewProduct&amp;productId=
             <?= $product['productID'] ?>">
-                        <?= $product['productName'] ?>
+                        <?= htmlspecialchars($product['productName']) ?>
                     </a>
                 </li>
             <?php endforeach; ?>
@@ -26,8 +26,5 @@
     <p>
         <a href="index.php?action=showAddEditForm">Add Product</a>
     </p>
-    <p class="last_paragraph">
-        <a href="../category?action=listCategories">List Categories</a>
-    </p>
-</section>
+</main>
 <?php include '../../view/footer.php'; ?>

@@ -1,13 +1,14 @@
 <?php
 require_once '../../util/main.php';
-require_once '../../util/tags.php';
-require_once '../../model/database.php';
+require_once '../../util/secure_conn.php';
+require_once '../../util/valid_admin.php';
+require_once '../../util/images.php';
 require_once '../../model/product_db.php';
 require_once '../../model/category_db.php';
 
-$action = filter_input(INPUT_POST, 'action');
+$action = strtolower(filter_input(INPUT_POST, 'action'));
 if ($action == NULL) {
-    $action = filter_input(INPUT_GET, 'action');
+    $action = strtolower(filter_input(INPUT_GET, 'action'));
     if ($action == NULL) {
         $action = 'listProducts';
     }
@@ -16,7 +17,7 @@ if ($action == NULL) {
 switch ($action) {
     case 'listProducts':
         $categoryId = filter_input(INPUT_GET, 'categoryId', FILTER_VALIDATE_INT);
-        if ($categoryId == FALSE) {
+        if (empty($categoryId)) {
             $categoryId = 1;
         }
         $currentCategory = getCategory($categoryId);
@@ -28,6 +29,7 @@ switch ($action) {
         $categories = getCategories();
         $productId = filter_input(INPUT_GET,  'productId', FILTER_VALIDATE_INT);
         $product = getProduct($productId);
+        $productOrderCount = getProductOrderCount($productId);
         include 'product_view.php';
         break;
     case 'deleteProduct':
@@ -55,11 +57,11 @@ switch ($action) {
         $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
         $discountPercent = filter_input(INPUT_POST, 'discountPercent');
 
+        // validate inputs
         if (
-            $categoryId === FALSE ||
-            $code == NULL ||
-            $name == NULL ||
-            $description == NULL ||
+            empty($code) ||
+            empty($name) ||
+            empty($description) ||
             $price === FALSE  ||
             $discountPercent === FALSE
         ) {
@@ -82,12 +84,10 @@ switch ($action) {
         $discountPercent = filter_input(INPUT_POST, 'discountPercent');
 
         if (
-            $productId === FALSE ||
-            $categoryId === FALSE ||
-            $code == NULL ||
-            $name == NULL ||
-            $description == NULL ||
-            $price === FALSE ||
+            empty($code) ||
+            empty($name) ||
+            empty($description) ||
+            $price === FALSE  ||
             $discountPercent === FALSE
         ) {
             $error = 'Invalid product data. Check all fields and try again.';
@@ -96,6 +96,28 @@ switch ($action) {
             $categories = getCategories();
             updateProduct($productId, $code, $name, $description, $price, $discountPercent, $categoryId);
             $product = getProduct($productIds);
+            include 'product_view.php';
+        }
+        break;
+    case 'uploadImage':
+        $productId = filter_input(INPUT_POST, 'productId');
+        $product = getProduct($productId);
+        $productCode = $product['productCode'];
+
+        $imageFilename = $productCode . '.png';
+        $imageDir = $docRoot . $appPath . 'images';
+
+        if (isset($_FILES['file1'])) {
+            $source = $_FILES['file1']['tmp_name'];
+            $target = $imageDir . DIRECTORY_SEPARATOR . $imageFilename;
+
+            // save uploaded file with correct fileName
+            move_uploaded_file($source, $target);
+
+            // add code that creates the medium and small versions of the image
+            processImage($imageDir, $imageFilename);
+
+            // display product with new image
             include 'product_view.php';
         }
         break;
