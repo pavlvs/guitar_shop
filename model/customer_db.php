@@ -4,6 +4,12 @@ function isValidCustomerEmail($email) {
     $sql = 'SELECT customerId
             FROM customers
             WHERE emailAddress = :email';
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':email', $email);
+    $stmt->execute();
+    $valid = ($stmt->rowCount() == 1);
+    $stmt->closeCursor();
+    return $valid;
 }
 
 function isValidCustomerLogin($email, $password) {
@@ -37,8 +43,8 @@ function getCustomer($customerId) {
 function getCustomerByEmail($email) {
     global $db;
     $sql = 'SELECT *
-    FROM customers
-    WHERE emailAddress = :email';
+            FROM customers
+            WHERE emailAddress = :email';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':email', $email);
     $stmt->execute();
@@ -50,7 +56,7 @@ function getCustomerByEmail($email) {
 function customerChangeShippingId($customerId, $addressId) {
     global $db;
     $sql = 'UPDATE customers
-            SET shipAddressId = :addressId
+            SET shipAddressID = :addressId
             WHERE customerID = :customerId';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':addressId', $addressId);
@@ -62,7 +68,7 @@ function customerChangeShippingId($customerId, $addressId) {
 function customerChangeBillingId($customerId, $addressId) {
     global $db;
     $sql = 'UPDATE customers
-            SET billingAddressId = :addressId
+            SET billingAddressID = :addressId
             WHERE customerID = :customerId';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':addressId', $addressId);
@@ -73,7 +79,7 @@ function customerChangeBillingId($customerId, $addressId) {
 
 function addCustomer($email, $firstName, $lastName, $password1) {
     global $db;
-    $sql = 'INSERT INTO foos (emailAddress, password, firstName, lastName)
+    $sql = 'INSERT INTO customers (emailAddress, password, firstName, lastName)
             VALUES (:email, :password, :firstName, :lastName)';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':email', $email);

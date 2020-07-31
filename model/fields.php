@@ -51,7 +51,7 @@ class Fields {
     }
 
     public function hasErrors() {
-        foreach ($this->field as $field) {
+        foreach ($this->fields as $field) {
             if ($field->hasError()) {
                 return true;
             }

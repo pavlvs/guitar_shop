@@ -36,14 +36,14 @@ function getCategory($categoryId) {
     }
 }
 
-function addCategory($categoryName) {
+function addCategory($name) {
     global $db;
     $sql = 'INSERT
             INTO categories (categoryName)
-            VALUES (:categoryName)';
+            VALUES (:name)';
     try {
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':categoryName', $categoryName);
+        $stmt->bindValue(':name', $name);
         $stmt->execute();
         $stmt->closeCursor();
 
@@ -62,9 +62,7 @@ function deleteCategory($categoryId) {
     try {
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':categoryId', $categoryId);
-        $rowCount = $stmt->execute();
         $stmt->closeCursor();
-        return $rowCount;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
         displayDBError($errorMessage);
@@ -73,7 +71,7 @@ function deleteCategory($categoryId) {
 
 function updateCategory($categoryId, $name) {
     global $db;
-    $sql = 'UPDATE foos
+    $sql = 'UPDATE categories
             SET categoryName = :name
             WHERE categoryID = :categoryId';
     try {

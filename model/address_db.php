@@ -77,7 +77,7 @@ function isUsedAddressId($addressId) {
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindValue(':value', $addressId);
     $stmt1->execute();
-    $result1 = $stmt1->fetchAll();
+    $result1 = $stmt1->fetch();
     $billingCount = $result1[0];
     $stmt1->closeCursor();
     if ($billingCount > 0) {
@@ -95,4 +95,5 @@ function isUsedAddressId($addressId) {
     if ($shipCount > 0) {
         return true;
     }
+    return false;
 }

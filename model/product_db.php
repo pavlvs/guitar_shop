@@ -2,9 +2,10 @@
 function getProductsByCategory($categoryId) {
     global $db;
     $sql = 'SELECT *
-            FROM products
-            WHERE categoryID =   :categoryId
-            ORDER BY productID';
+            FROM products p
+            INNER JOIN categories c
+            ON p.categoryID = c.categoryID
+            WHERE categoryID = :categoryId';
     try {
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':categoryId', $categoryId);
@@ -29,7 +30,7 @@ function getProductOrderCount($productId) {
         $stmt->bindValue(':productId', $productId);
         $stmt->execute();
         $product = $stmt->fetch();
-        $orderCount = $product['orderitemscount'];
+        $orderCount = $product['orderCount'];
         $stmt->closeCursor();
         return $orderCount;
     } catch (PDOException $e) {
@@ -89,23 +90,21 @@ function updateProduct($productId, $code, $name, $description, $price, $discount
     $sql = 'UPDATE products
             SET productName     = :name,
                 productCode     = :code,
-                description     = :description,
+                description     = :desc,
                 listPrice       = :price,
-                discountPercent = :discountPercent,
+                discountPercent = :discount,
                 categoryId      = :categoryId
             WHERE productID= :productId';
     try {
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':name', $name);
         $stmt->bindValue(':code', $code);
-        $stmt->bindValue(':description', $description);
+        $stmt->bindValue(':desc', $description);
         $stmt->bindValue(':price', $price);
-        $stmt->bindValue(':discountPercent', $discountPercent);
+        $stmt->bindValue(':discount', $discountPercent);
         $stmt->bindValue(':categoryId', $categoryId);
         $stmt->bindValue(':productId', $productId);
-        $rowCount = $stmt->execute();
         $stmt->closeCursor();
-        return $rowCount;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
         displayDBError($errorMessage);
@@ -119,9 +118,8 @@ function deleteProduct($productId) {
     try {
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':productId', $productId);
-        $rowCount = $stmt->execute();
+        $stmt->execute();
         $stmt->closeCursor();
-        return $rowCount;
     } catch (PDOException $e) {
         $errorMessage = $e->getMessage();
         displayDBError($errorMessage);

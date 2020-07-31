@@ -45,14 +45,14 @@ function cardName($cardType) {
 
 function addOrder($cardType, $cardNumber, $cardCVV, $cardExpires) {
     global $db;
-    $customerId = $_SESSION['user']['customerId'];
-    $billingId = $_SESSION['user']['billinrgAddressId'];
-    $shippingId = $_SESSION['user']['shipAddressId'];
+    $customerId = $_SESSION['user']['customerID'];
+    $billingId = $_SESSION['user']['billinrgAddressID'];
+    $shippingId = $_SESSION['user']['shipAddressID'];
     $shippingCost = shippingCost();
     $tax = taxAmount(cartSubtotal());
     $orderDate = date("Y-m-d H:i:s");
 
-    $sql = 'INSERT INTO orders (customerId, orderDate, shipAmount, taxAmount, shipAddressId, cardType, cardNumber, cardExpires, billingAddressId)
+    $sql = 'INSERT INTO orders (customerID, orderDate, shipAmount, taxAmount, shipAddressID, cardType, cardNumber, cardExpires, billingAddressID)
     VALUES (:customerId, :orderDate, :shipAmount, :taxAmount, :shippingId, :cardType, :cardNumber, :cardExpires, :$billingId)';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':customerId', $customerId);
@@ -72,7 +72,7 @@ function addOrder($cardType, $cardNumber, $cardCVV, $cardExpires) {
 
 function addOrderItem($orderId, $productId, $itemPrice, $discount, $quantity) {
     global $db;
-    $sql = 'INSERT INTO OrderItems (orderId, productId, itemPrice, discountAmount, quantity)
+    $sql = 'INSERT INTO OrderItems (orderID, productID, itemPrice, discountAmount, quantity)
             VALUES (:orderId, :productId, :itemPrice, :discount, :quantity)';
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':orderId', $orderId);
@@ -80,15 +80,17 @@ function addOrderItem($orderId, $productId, $itemPrice, $discount, $quantity) {
     $stmt->bindValue(':itemPrice', $itemPrice);
     $stmt->bindValue(':discount', $discount);
     $stmt->bindValue(':quantity', $quantity);
+    $stmt->execute();
+    $stmt->closeCursor();
 }
 
 function getOrder($orderId) {
     global $db;
     $sql = 'SELECT *
-    FROM orders
-    WHERE orderID = :orderId';
+            FROM orders
+            WHERE orderID = :orderId';
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':orderID', $orderId);
+    $stmt->bindValue(':orderId', $orderId);
     $stmt->execute();
     $order = $stmt->fetch();
     $stmt->closeCursor();
@@ -98,10 +100,10 @@ function getOrder($orderId) {
 function getOrderItems($orderId) {
     global $db;
     $sql = 'SELECT *
-        FROM OrderItems
-        WHERE orderID = :orderId';
+            FROM OrderItems
+            WHERE orderID = :orderId';
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':orderID', $orderId);
+    $stmt->bindValue(':orderId', $orderId);
     $stmt->execute();
     $orderItems = $stmt->fetchAll();
     $stmt->closeCursor();
@@ -116,7 +118,7 @@ function getOrdersByCustomerId($customerId) {
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':customerId', $customerId);
     $stmt->execute();
-    $order = $stmt->fetch();
+    $order = $stmt->fetchAll();
     $stmt->closeCursor();
 }
 
@@ -125,7 +127,7 @@ function getUnfilledOrders() {
     $sql = 'SELECT *
             FROM orders
             INNER JOIN customers
-            ON customers.customerId = orders.customerId
+            ON customers.customerID = orders.customerID
             WHERE shipDate IS NULL
             ORDER BY orderDate';
     $stmt = $db->prepare($sql);
@@ -140,7 +142,7 @@ function getFilledOrders() {
     $sql = 'SELECT *
             FROM orders
             INNER JOIN customers
-            ON customers.customerId = orders.customerId
+            ON customers.customerID = orders.customerID
             WHERE shipDate IS NOT NULL
             ORDER BY orderDate';
     $stmt = $db->prepare($sql);

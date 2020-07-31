@@ -1,7 +1,7 @@
 <?php
-function addAdmin($email, $firstName, $lastName, $password) {
+function addAdmin($email, $firstName, $lastName, $password1) {
     global $db;
-    $password = sha1($email . $password);
+    $password = sha1($email . $password1);
     $sql = 'INSERT INTO administrators (emailAddress, password, firstName, lastName)
             VALUES (:email, :password, :firstName, :lastName)';
     $stmt = $db->prepare($sql);
@@ -17,7 +17,8 @@ function addAdmin($email, $firstName, $lastName, $password) {
 
 function isValidAdminLogin($email, $password) {
     global $db;
-    $sql = 'SELECT adminID
+    $password = sha1($email, $password);
+    $sql = 'SELECT *
             FROM administrators
             WHERE emailAddress = :email
             AND `password` = :password';
@@ -42,7 +43,7 @@ function admincount() {
 
 function getAllAdmins() {
     global $db;
-    $sql = 'SELECT * FROM administrators ORDER BY lastname, firstName';
+    $sql = 'SELECT * FROM administrators ORDER BY lastName, firstName';
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $admins = $stmt->fetchAll();
@@ -100,7 +101,7 @@ function updateAdmin($adminId, $email, $firstName, $lastName, $password1, $passw
 
     if (!empty($password1) && !empty($password2)) {
         if ($password1 !== $password2) {
-            displayError('passwords do not match.button_form');
+            displayError('Passwords do not match.');
         } elseif (strlen($password1 < 6)) {
             displayError('Password must be at least six characters');
         }

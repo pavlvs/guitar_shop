@@ -23,7 +23,7 @@ class Validate {
 
         // check field and set or clear error message
         if ($required && empty($value)) {
-            $field->setErrorMessage('Required.button_form');
+            $field->setErrorMessage('Required.');
         } elseif (strlen($value) < $min) {
             $field->setErrorMessage('Too short.');
         } elseif (strlen($value) > $max) {
@@ -93,7 +93,7 @@ class Validate {
         }
 
         if (count($parts) > 2) {
-            $field->setErrorMessage('Only on at sign allowed');
+            $field->setErrorMessage('Only one at sign allowed');
             return;
         }
 
@@ -233,6 +233,7 @@ class Validate {
         $types[] = 'd';
         $types = implode('|', $types);
         $pattern = '/^(' . $types . ')$/';
+        $this->pattern($name, $value, $pattern, 'Invalid card type.');
     }
     public function cardNumber($name, $value, $type) {
         $field = $this->fields->getField($name);
@@ -277,7 +278,7 @@ class Validate {
         }
         // Check prefix
         $prefixes = explode(',', $prefixes);
-        $rangePattern = '/^[[:digit:]]+-[[:digit:]]$/';
+        $rangePattern = '/^[[:digit:]]+-[[:digit:]]+$/';
         $validPrefix = false;
         foreach ($prefixes as $prefix) {
             if (preg_match($rangePattern, $prefix) === 1) {
@@ -331,7 +332,7 @@ class Validate {
             return;
         }
         $dateParts = explode('/',  $value);
-        $month= $dateParts[0];
+        $month = $dateParts[0];
         $year = $dateParts[1];
         $dateString = $month . '/01/' . $year . ' last day of 23:59:59';
         $exp = new DateTime($dateString);

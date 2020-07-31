@@ -24,9 +24,9 @@
                 <td class="product_image_column">
                     <img src="images/<?= htmlspecialchars($product['productCode']); ?>_s.png" alt="&nbsp;">
                 </td>
-                <td class="product_info_cell">
+                <td>
                     <p>
-                        <a href="catalog?action=viewProduct&amp;productId=<?= $product['productID'] ?>">
+                        <a href="catalog?productId=<?= $product['productID'] ?>">
                             <?= htmlspecialchars($product['productName']) ?>
                         </a>
                     </p>
