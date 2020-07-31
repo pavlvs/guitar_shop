@@ -1,41 +1,38 @@
 <?php
 require_once '../util/main.php';
-require_once '../util/tags.php';
-require_once '../model/database.php';
 require_once '../model/product_db.php';
 require_once '../model/category_db.php';
 
+$categoryId = filter_input(INPUT_GET, 'categoryId', FILTER_VALIDATE_INT);
+$productId = filter_input(INPUT_GET, 'productId', FILTER_VALIDATE_INT);
 $action = filter_input(INPUT_POST, 'action');
-if ($action == NULL) {
-    $action = filter_input(INPUT_GET, 'action');
-    if ($action == NULL) {
-        $action = 'listProducts';
-    }
+if ($categoryId !== null) {
+    $action = 'category';
+} elseif ($productId !== null) {
+    $action = 'product';
+} else {
+    $action = '';
 }
 
 switch ($action) {
-    case 'listProducts':
-        // get current category
-        $categoryId = filter_input(INPUT_GET, 'categoryId', FILTER_VALIDATE_INT);
-        if ($categoryId == NULL || $categoryId === FALSE) {
-            $categoryId = 1;
-        }
-        // get categories and products
-        $currentCategory = getCategory($categoryId);
-        $categories = getCategories();
+    case 'category':
+        // get category data
+        $category = getCategory($categoryId);
+        $categoryName = $category['categoryName'];
         $products = getProductsByCategory($categoryId);
 
-        // display view
-        include 'product_list.php';
+        // display category
+        include './category_view.php';
         break;
-    case 'viewProduct':
-        $categories = getCategories();
-
+    case 'product':
         // get product data
-        $productId = filter_input(INPUT_GET, 'productId', FILTER_VALIDATE_INT);
         $product = getProduct($productId);
 
         // display product
         include 'product_view.php';
+        break;
+    default:
+        $error = 'Unknown catalog action: ' . $action;
+        include 'errors/error.php';
         break;
 }
