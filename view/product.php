@@ -8,7 +8,7 @@ $listPrice        = $product['listPrice'];
 $discountPercent  = $product['discountPercent'];
 
 // Add HTML tags to the description
-$descriptionTags  = addTags($description);
+$descriptionWithTags  = addTags($description);
 
 // Calculate discounts
 $discountAmount   = round($listPrice * ($discountPercent / 100), 2);
@@ -44,10 +44,10 @@ $imageAlt         = 'Image filename: ' . $imageFilename;
         id="add_to_cart_form"
         <input type="hidden" name="action" value="add">
         <input type="hidden" name="productId" value="<?= $productId; ?>">
-        <b>Quantity</b>
+        <b>Quantity</b>&nbsp;
         <input type="text" name="quantity" value="1" size="2">
         <input type="submit" value="Add to Cart">
     </form>
-    <h2 class="no_bottom_margin">Description</h2>
-    <?= $descriptionTags ?>
+    <h2>Description</h2>
+    <?= $descriptionWithTags ?>
 </div>

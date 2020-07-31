@@ -1,6 +1,4 @@
 <aside>
-    <!-- Thes are for testing only.
-    Remove them from the application -->
     <h2>Links</h2>
     <ul>
         <li>

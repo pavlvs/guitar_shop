@@ -18,13 +18,14 @@
             </li>
         <?php else : ?>
             <li>
-                <a href="<?= $appPath ?>">Home</a>
+                <a href="<?= $accountUrl ?>">Login/Register</a>
             </li>
         <?php endif; ?>
         <li>
             <a href="<?= $appPath ?>">Home</a>
         </li>
     </ul>
+
     <h2>Categories</h2>
     <ul>
         <!-- display links for all categories -->
@@ -32,9 +33,10 @@
         require_once 'model/database.php';
         require_once 'model/category_db.php';
 
+        $categories = getCategories();
         foreach ($categories as $category) :
             $name = $category['categoryName'];
-            $id = $category['categoryId'];
+            $id = $category['categoryID'];
             $url = $appPath . 'catalog?categoryId=' . $id;
         ?>
             <li>

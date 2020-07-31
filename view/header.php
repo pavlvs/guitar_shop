@@ -9,7 +9,6 @@
 </head>
 
 <body>
-        <header>
-            <h1>My Guitar Shop</h1>
-        </header>
-        <main>
+    <header>
+        <h1>My Guitar Shop</h1>
+    </header>
