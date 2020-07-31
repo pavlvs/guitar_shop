@@ -54,7 +54,7 @@ function isValidCardCVV($cardCVV, $cardType) {
             $pattern = '/^\d{3}$/';
             break;
     }
-    return preg_match($pattern, $cardType);
+    return preg_match($pattern, $cardCVV);
 }
 
 function isValidCardExpires($cardExpires) {

@@ -1,10 +1,9 @@
 <?php
 // Get the document root
-$docRoot = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT');
+$docRoot = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT', FILTER_SANITIZE_STRING);
 
 // Get the application path
-$uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
-// echo $uri . '<br>';
+$uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING);
 $dirs = explode('/', $uri);
 $appPath = '/';
 

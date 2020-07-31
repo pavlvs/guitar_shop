@@ -10,7 +10,7 @@ function htmlConvert($text) {
 function addTags($text) {
 
     // Convert return characters to the Unix new lines
-    $text = str_replace("\r\n", "\n", $text); // convert windows
+    $text = str_replace("\r\n", "\n", $text); // convert Windows
     $text = str_replace("\r", "\n", $text); // convert Mac
 
     // Get an array of pargraphs
